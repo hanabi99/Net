@@ -70,6 +70,61 @@ public class NetWWMgr : MonoBehaviour
 
         www.Dispose();
     }
+    /// <summary>
+    /// 通过UnityWebRequest去获取数据
+    /// </summary>
+    /// <typeparam name="T">byte[]、Texture、AssetBundle、AudioClip、object（自定义的 如果是object证明要保存到本地）</typeparam>
+    /// <param name="path">远端或者本地数据路径 http ftp file</param>
+    /// <param name="action">获取成功后的回调函数</param>
+    /// <param name="localPath">如果是下载到本地 需要传第3个参数</param>
+    /// <param name="type">如果是下载 音效切片文件 需要穿音效类型</param>
+    public void UnityWebRequestLoad<T>(string path, UnityAction<T> action, string localPath = "", AudioType type = AudioType.MPEG) where T : class
+    {
+        StartCoroutine(UnityWebRequestLoadAsync<T>(path, action, localPath, type));
+    }
+
+    private IEnumerator UnityWebRequestLoadAsync<T>(string path, UnityAction<T> action, string localPath = "", AudioType type = AudioType.MPEG) where T : class
+    {
+        UnityWebRequest req = new UnityWebRequest(path, UnityWebRequest.kHttpVerbGET);
+
+        if (typeof(T) == typeof(byte[]))
+            req.downloadHandler = new DownloadHandlerBuffer();
+        else if (typeof(T) == typeof(Texture))
+            req.downloadHandler = new DownloadHandlerTexture();
+        else if (typeof(T) == typeof(AssetBundle))
+            req.downloadHandler = new DownloadHandlerAssetBundle(req.url, 0);
+        else if (typeof(T) == typeof(object))
+            req.downloadHandler = new DownloadHandlerFile(localPath);
+        else if (typeof(T) == typeof(AudioClip))
+            req = UnityWebRequestMultimedia.GetAudioClip(path, type);
+        else//如果出现没有的类型  就不用继续往下执行了
+        {
+            Debug.LogWarning("未知类型" + typeof(T));
+            yield break;
+        }
+
+        yield return req.SendWebRequest();
+
+        if (req.result == UnityWebRequest.Result.Success)
+        {
+            if (typeof(T) == typeof(byte[]))
+                action?.Invoke(req.downloadHandler.data as T);
+            else if (typeof(T) == typeof(Texture))
+                //action?.Invoke((req.downloadHandler as DownloadHandlerTexture).texture as T);
+                action?.Invoke(DownloadHandlerTexture.GetContent(req) as T);
+            else if (typeof(T) == typeof(AssetBundle))
+                action?.Invoke((req.downloadHandler as DownloadHandlerAssetBundle).assetBundle as T);
+            else if (typeof(T) == typeof(object))
+                action?.Invoke(null);
+            else if (typeof(T) == typeof(AudioClip))
+                action?.Invoke(DownloadHandlerAudioClip.GetContent(req) as T);
+        }
+        else
+        {
+            Debug.LogWarning("获取数据失败" + req.result + req.error + req.responseCode);
+        }
+    }
+
 
     /// <summary>
     /// WWW形式上传发送文件消息
