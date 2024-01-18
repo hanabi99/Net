@@ -12,8 +12,8 @@ public class Test2 : MonoBehaviour
     {
         btnSend.onClick.AddListener(() =>
         {
-            if (input.text != "")
-                NetAsyncMgr.Instance.Send(input.text);
+            //if (input.text != "")
+                //NetAsyncMgr.Instance.Send(input.text);
         });
     }
 
