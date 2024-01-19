@@ -19,11 +19,25 @@ public class NetAsyncMgr : MonoBehaviour
     private byte[] cacheBytes = new byte[1024 * 1024];
     private int cacheNum = 0;
 
-    private Queue<BaseMsg> receiveQueue = new Queue<BaseMsg>();
+    private Queue<BaseHandler> receiveQueue = new Queue<BaseHandler>();
+
+    private MsgPool msgPool = new MsgPool();
+
+    private HeartMsg heartMsg;
+    public HeartMsg HeartMsg
+    {
+        get
+        {
+            if(heartMsg == null)
+            {
+                heartMsg = msgPool.GetMessage(1003) as HeartMsg;
+            }
+            return heartMsg;
+        }
+    }
 
     //发送心跳消息的间隔时间
     private int SEND_HEART_MSG_TIME = 2;
-    private HeartMsg hearMsg = new HeartMsg();
 
     // Start is called before the first frame update
     void Awake()
@@ -38,7 +52,7 @@ public class NetAsyncMgr : MonoBehaviour
     private void SendHeartMsg()
     {
         if (socket != null && socket.Connected)
-            Send(hearMsg);
+            Send(HeartMsg);
     }
 
     // Update is called once per frame
@@ -46,16 +60,8 @@ public class NetAsyncMgr : MonoBehaviour
     {
         if (receiveQueue.Count > 0)
         {
-            BaseMsg baseMsg = receiveQueue.Dequeue();
-            switch (baseMsg)
-            {
-                case PlayerMsg msg:
-                    print(msg.playerID);
-                    print(msg.playerData.name);
-                    print(msg.playerData.lev);
-                    print(msg.playerData.atk);
-                    break;
-            }
+            //通过消息处理者基类对象 调用处理方法 
+            receiveQueue.Dequeue().HandlerMsg();        
         }
     }
 
@@ -84,6 +90,7 @@ public class NetAsyncMgr : MonoBehaviour
             else
             {
                 print("连接失败" + args.SocketError);
+                //服务器没有开启 提示弹窗
             }
         };
         socket.ConnectAsync(args);
@@ -111,7 +118,7 @@ public class NetAsyncMgr : MonoBehaviour
         }
     }
 
-    public void Close()
+    public void Close(bool isself = false)
     {
         if (socket != null)
         {
@@ -121,6 +128,11 @@ public class NetAsyncMgr : MonoBehaviour
             socket.Disconnect(false);
             socket.Close();
             socket = null;
+        }
+        //不是自己断开的 弹出重连窗口 再Connect
+        if(!isself)
+        {
+
         }
     }
 
@@ -191,16 +203,15 @@ public class NetAsyncMgr : MonoBehaviour
             if (cacheNum - nowIndex >= msgLength && msgLength != -1)
             {
                 //解析消息体
-                BaseMsg baseMsg = null;
-                switch (msgID)
+                BaseMsg baseMsg = msgPool.GetMessage(msgID);
+                if(baseMsg != null)
                 {
-                    case 1001:
-                        baseMsg = new PlayerMsg();
-                        baseMsg.Reading(cacheBytes, nowIndex);
-                        break;
+                    baseMsg.Reading(cacheBytes, nowIndex);
+                    BaseHandler baseHandler = msgPool.GetHandler(msgID);
+                    baseHandler.message = baseMsg;
+                    receiveQueue.Enqueue(baseHandler);
                 }
-                if (baseMsg != null)
-                    receiveQueue.Enqueue(baseMsg);
+
                 nowIndex += msgLength;
                 if (nowIndex == cacheNum)
                 {
@@ -223,6 +234,6 @@ public class NetAsyncMgr : MonoBehaviour
 
     private void OnDestroy()
     {
-        Close();
+        Close(true);
     }
 }

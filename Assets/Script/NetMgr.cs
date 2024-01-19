@@ -134,24 +134,6 @@ public class NetMgr : MonoBehaviour
                 byte[] receiveBytes = new byte[1024 * 1024];
                 int receiveNum = socket.Receive(receiveBytes);
                 HandleReciveMsg(receiveBytes, receiveNum);
-                //先读取字节数组的前4个字节
-                //int msgId = BitConverter.ToInt32(receiveBytes, 0);
-                //BaseMsg baseMsg = null;
-                //switch (msgId)
-                //{
-                //    case 1001:
-                //        PlayerMsg msg = new PlayerMsg();
-                //        msg.Reading(receiveBytes, 4);
-                //        baseMsg = msg;
-                //        break;
-                //}
-                ////收到消息 解析消息为字符串 并放入公共容器
-                //if(baseMsg == null)
-                //{
-                //    Debug.Log("receice msg is null");
-                //    continue;
-                //}
-                //receiveQueue.Enqueue(baseMsg);
             }
         }
     }
