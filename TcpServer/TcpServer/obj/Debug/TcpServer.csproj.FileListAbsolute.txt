@@ -1,0 +1,6 @@
+D:\c#excode\TcpServer\TcpServer\bin\Debug\TcpServer.exe.config
+D:\c#excode\TcpServer\TcpServer\bin\Debug\TcpServer.exe
+D:\c#excode\TcpServer\TcpServer\bin\Debug\TcpServer.pdb
+D:\c#excode\TcpServer\TcpServer\obj\Debug\TcpServer.exe
+D:\c#excode\TcpServer\TcpServer\obj\Debug\TcpServer.pdb
+D:\c#excode\TcpServer\TcpServer\obj\Debug\TcpServer.csproj.CoreCompileInputs.cache

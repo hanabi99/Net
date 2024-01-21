@@ -1,0 +1,7 @@
+D:\c#excode\TcpServer\ServerMutiOOP\bin\Debug\ServerMutiOOP.exe.config
+D:\c#excode\TcpServer\ServerMutiOOP\bin\Debug\ServerMutiOOP.exe
+D:\c#excode\TcpServer\ServerMutiOOP\bin\Debug\ServerMutiOOP.pdb
+D:\c#excode\TcpServer\ServerMutiOOP\obj\Debug\ServerMutiOOP.csproj.AssemblyReference.cache
+D:\c#excode\TcpServer\ServerMutiOOP\obj\Debug\ServerMutiOOP.csproj.CoreCompileInputs.cache
+D:\c#excode\TcpServer\ServerMutiOOP\obj\Debug\ServerMutiOOP.exe
+D:\c#excode\TcpServer\ServerMutiOOP\obj\Debug\ServerMutiOOP.pdb

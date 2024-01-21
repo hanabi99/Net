@@ -1,0 +1,7 @@
+D:\c#excode\TcpServer\TcpServerMuti\bin\Debug\TcpServerMuti.exe.config
+D:\c#excode\TcpServer\TcpServerMuti\bin\Debug\TcpServerMuti.exe
+D:\c#excode\TcpServer\TcpServerMuti\bin\Debug\TcpServerMuti.pdb
+D:\c#excode\TcpServer\TcpServerMuti\obj\Debug\TcpServerMuti.csproj.AssemblyReference.cache
+D:\c#excode\TcpServer\TcpServerMuti\obj\Debug\TcpServerMuti.csproj.CoreCompileInputs.cache
+D:\c#excode\TcpServer\TcpServerMuti\obj\Debug\TcpServerMuti.exe
+D:\c#excode\TcpServer\TcpServerMuti\obj\Debug\TcpServerMuti.pdb

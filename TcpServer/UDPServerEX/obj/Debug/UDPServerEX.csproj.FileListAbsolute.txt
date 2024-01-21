@@ -1,0 +1,7 @@
+D:\c#excode\TcpServer\UDPServerEX\bin\Debug\UDPServerEX.exe.config
+D:\c#excode\TcpServer\UDPServerEX\bin\Debug\UDPServerEX.exe
+D:\c#excode\TcpServer\UDPServerEX\bin\Debug\UDPServerEX.pdb
+D:\c#excode\TcpServer\UDPServerEX\obj\Debug\UDPServerEX.csproj.AssemblyReference.cache
+D:\c#excode\TcpServer\UDPServerEX\obj\Debug\UDPServerEX.csproj.CoreCompileInputs.cache
+D:\c#excode\TcpServer\UDPServerEX\obj\Debug\UDPServerEX.exe
+D:\c#excode\TcpServer\UDPServerEX\obj\Debug\UDPServerEX.pdb
